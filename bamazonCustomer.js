@@ -50,14 +50,16 @@ function checkInv(item, quantity) {
     let query = connection.query("SELECT * FROM products", function (err, res) {
         let saleItem = item;
         let saleQuantity = quantity;
+        let stockQuantity = res[saleItem].stock_quantity;
         if (err) throw err;
         if (isNaN(quantity)) {
             console.log("Yeah... that's not a number. Try again. With a NUMBER!")
+            //call the purchase function again
         } else if (res[saleItem].stock_quantity < saleQuantity) {
             console.log("\nI'm sorry, we don't have that many of those. We only have " + res[saleItem].stock_quantity + ".")
         } else {
             console.log("\nWord. That'll be " + quantity * res[saleItem].price + " rupees.\n");
-            transact(saleItem, saleQuantity)
+            transact(saleItem, saleQuantity, stockQuantity)
             connection.end();
 
 
@@ -67,11 +69,11 @@ function checkInv(item, quantity) {
 };
 
 // function completes transaction and updates inventory
-function transact(item, quantity) {
+function transact(item, quantity, stock) {
     let query = connection.query("UPDATE products SET ? WHERE ?",
         [
             {
-                stock_quantity: item.stock_quantity - quantity
+                stock_quantity: stock - quantity
             },
             {
                 item_id: item
@@ -79,7 +81,7 @@ function transact(item, quantity) {
         ], function (err, res) {
             if (err) throw err;
             console.log("it works");
-            connection.end();
+            console.table(res);
 
         })
 };
