@@ -28,3 +28,5 @@ The `purchase()` function uses inquirer to prompt the user to complete the trans
 The `transact()` function updates the database. As shown below, the stock quantity of "Bobgoblin Guts" has decreased from 12 to 10.
 
 ![Updated-Database](updated-DB.png)
+
+Finally, the app thanks the user and ends the connection to the database.
