@@ -1,7 +1,5 @@
 # Bamazon
-Bamazon. mutha fucka.
-
-don't email me you fucks. 
+Bamazon. 
 
 Bamazon is a CLI storefront app. On load, the app displays a table of items for sale. It displays item ID, item name, item price (this one is Zelda themed, so the dollars have been converted to rupies), and the current inventory for each item. There is also a Triforce. 
 
