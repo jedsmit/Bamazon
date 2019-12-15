@@ -1,6 +1,7 @@
 var mysql = require("mysql");
 var inquirer = require("inquirer");
 var consoleTable = require("console.table");
+var colors = require("colors");
 
 // create connection to mysql
 var connection = mysql.createConnection({
@@ -17,16 +18,20 @@ connection.connect(function (err) {
     console.log("\nWelcome to my shop! The journey ahead is dangerous! Buy some stuff!\n")
     // prompt the user to purchase
     purchase();
+
 });
+var saleItem = 0;
+var saleQuantity = 0;
+var stockQuantity = 0;
 
 // function prompts the user for item and quantity to purchase
 function purchase() {
-    let query = connection.query("SELECT * FROM products", function (err, res) {
+    connection.query("SELECT * FROM products", function (err, res) {
         if (err) throw err;
         console.table(res);
         inquirer.prompt([{
             name: "itemId",
-            type: "input",
+            type: "number",
             message: "Enter the item ID of the item you want to buy."
         },
         {
@@ -34,9 +39,10 @@ function purchase() {
             type: "number",
             message: "Excellent Choice! How many would you like?"
         }]).then(function (answer) {
+            saleItem = answer.itemId - 1;
+            saleQuantity = answer.itemQuantity;
+            checkInv()
 
-            checkInv(answer.itemId, answer.itemQuantity)
-            //connection.end();
         });
 
     });
@@ -45,44 +51,50 @@ function purchase() {
 
 // function to check inventory
 
-function checkInv(item, quantity) {
+function checkInv() {
 
-    let query = connection.query("SELECT * FROM products", function (err, res) {
-        let saleItem = item;
-        let saleQuantity = quantity;
-        let stockQuantity = res[saleItem].stock_quantity;
+    connection.query("SELECT * FROM products", function (err, res) {
+        //console.log(res[item].product_name + res[item].department_name + res[item].price + res[item].stock_quantity);
+        stockQuantity = res[saleItem].stock_quantity;
+        console.log(res[saleItem].product_name + " saleItem: " + saleItem + " saleQuant: " + saleQuantity + "price: " + res[saleItem].price + " stockQuant: " + stockQuantity)
         if (err) throw err;
-        if (isNaN(quantity)) {
-            console.log("Yeah... that's not a number. Try again. With a NUMBER!")
-            //call the purchase function again
-        } else if (res[saleItem].stock_quantity < saleQuantity) {
+        //call the purchase function again
+        if (res[saleItem].stock_quantity < saleQuantity) {
             console.log("\nI'm sorry, we don't have that many of those. We only have " + res[saleItem].stock_quantity + ".")
-        } else {
-            console.log("\nWord. That'll be " + quantity * res[saleItem].price + " rupees.\n");
-            transact(saleItem, saleQuantity, stockQuantity)
-            connection.end();
+            purchase();
 
+        } else {
+            console.log("\nWord. Enjoy your " + res[saleItem].product_name + "!\n");
+            transact()
 
         }
     })
-
 };
 
 // function completes transaction and updates inventory
-function transact(item, quantity, stock) {
-    let query = connection.query("UPDATE products SET ? WHERE ?",
+function transact() {
+    var newQuantity = stockQuantity - saleQuantity;
+    console.log(saleItem);
+    console.log(newQuantity)
+    //var slItem = item;
+    //var slQuantity = quantity;
+    //var stQuantity = stock;
+    connection.query("UPDATE products SET ? WHERE ?",
         [
             {
-                stock_quantity: stock - quantity
+                stock_quantity: newQuantity
             },
             {
-                item_id: item
+                item_id: saleItem + 1
             }
         ], function (err, res) {
+            //console.log(res[item].product_name + res[item].department_name + res[item].price + res[item].stock_quantity);
             if (err) throw err;
-            console.log("it works");
-            console.table(res);
+            console.log(res);
+            console.log(res.affectedRows + " products updated!\n")
+            console.log("Thank you! Please come again!");
 
         })
+    connection.end();
 };
 
