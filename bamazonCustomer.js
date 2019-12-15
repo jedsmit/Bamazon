@@ -63,7 +63,7 @@ function checkInv() {
         if (err) throw err;
         //call the purchase function again if not enough stock
         if (res[saleItem].stock_quantity < saleQuantity) {
-            console.log(colors.brightRed("\nI'm sorry, we don't have that many of those. We only have " + res[saleItem].stock_quantity + "."));
+            console.log(colors.brightRed("\nI'm sorry, we don't have that many of those. We only have " + res[saleItem].stock_quantity + ".\n"));
             purchase();
 
         } else {
