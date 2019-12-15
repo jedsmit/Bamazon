@@ -15,7 +15,7 @@ var connection = mysql.createConnection({
 // connect to the database
 connection.connect(function (err) {
     if (err) throw err;
-    console.log("\nWelcome to my shop! The journey ahead is dangerous! Buy some stuff!\n")
+    console.log("\nWelcome to my shop! The journey ahead is dangerous! Buy some stuff!\n".brightYellow)
     // prompt the user to purchase
     purchase();
 
@@ -32,12 +32,12 @@ function purchase() {
         inquirer.prompt([{
             name: "itemId",
             type: "number",
-            message: "Enter the item ID of the item you want to buy."
+            message: "Enter the item ID of the item you want to buy.".brightYellow
         },
         {
             name: "itemQuantity",
             type: "number",
-            message: "Excellent Choice! How many would you like?"
+            message: "Excellent Choice! How many would you like?".brightYellow
         }]).then(function (answer) {
             saleItem = answer.itemId - 1;
             saleQuantity = answer.itemQuantity;
@@ -54,17 +54,15 @@ function purchase() {
 function checkInv() {
 
     connection.query("SELECT * FROM products", function (err, res) {
-        //console.log(res[item].product_name + res[item].department_name + res[item].price + res[item].stock_quantity);
         stockQuantity = res[saleItem].stock_quantity;
-        console.log(res[saleItem].product_name + " saleItem: " + saleItem + " saleQuant: " + saleQuantity + "price: " + res[saleItem].price + " stockQuant: " + stockQuantity)
         if (err) throw err;
-        //call the purchase function again
+        //call the purchase function again if not enough stock
         if (res[saleItem].stock_quantity < saleQuantity) {
-            console.log("\nI'm sorry, we don't have that many of those. We only have " + res[saleItem].stock_quantity + ".")
+            console.log(colors.brightRed("\nI'm sorry, we don't have that many of those. We only have " + res[saleItem].stock_quantity + "."));
             purchase();
 
         } else {
-            console.log("\nWord. Enjoy your " + res[saleItem].product_name + "!\n");
+            console.log(colors.brightYellow("\nWord. Enjoy your " + res[saleItem].product_name + "!\n"));
             transact()
 
         }
@@ -74,11 +72,6 @@ function checkInv() {
 // function completes transaction and updates inventory
 function transact() {
     var newQuantity = stockQuantity - saleQuantity;
-    console.log(saleItem);
-    console.log(newQuantity)
-    //var slItem = item;
-    //var slQuantity = quantity;
-    //var stQuantity = stock;
     connection.query("UPDATE products SET ? WHERE ?",
         [
             {
@@ -88,11 +81,9 @@ function transact() {
                 item_id: saleItem + 1
             }
         ], function (err, res) {
-            //console.log(res[item].product_name + res[item].department_name + res[item].price + res[item].stock_quantity);
             if (err) throw err;
-            console.log(res);
             console.log(res.affectedRows + " products updated!\n")
-            console.log("Thank you! Please come again!");
+            console.log("Thank you! Please come again!".brightYellow);
 
         })
     connection.end();
