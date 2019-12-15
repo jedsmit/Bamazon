@@ -11,3 +11,11 @@ It immediately prompts the user to enter the item ID of the item they want to pu
 For the database, I used mySQL and mySQL Workbench. The schema:
 
 ![Schema](schema.png)
+
+I used inquirer to prompt the user to complete the transaction.    
+
+![Transaction](transaction.png)
+
+The `transact()` function updates the database.
+
+![Updated-Database](updated-DB.png)

@@ -87,8 +87,8 @@ function transact() {
             }
         ], function (err, res) {
             if (err) throw err;
-            console.log(res.affectedRows + " products updated!\n")
-            console.log("Thank you! Please come again!".brightYellow);
+            //console.log(res.affectedRows + " products updated!\n")
+            console.log("Thank you! Please come again!\n".brightYellow);
 
         })
     connection.end();
