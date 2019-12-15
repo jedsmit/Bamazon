@@ -60,6 +60,7 @@ function checkInv() {
 
     connection.query("SELECT * FROM products", function (err, res) {
         stockQuantity = res[saleItem].stock_quantity;
+        var totalPrice = res[saleItem].price * saleQuantity;
         if (err) throw err;
         //call the purchase function again if not enough stock
         if (res[saleItem].stock_quantity < saleQuantity) {
@@ -67,7 +68,7 @@ function checkInv() {
             purchase();
 
         } else {
-            console.log(colors.brightYellow("\nWord. Enjoy your " + res[saleItem].product_name + "!\n"));
+            console.log(colors.brightYellow("\nWord. That'll be " + totalPrice + " rupies. Enjoy your " + res[saleItem].product_name + "!\n"));
             transact()
 
         }
