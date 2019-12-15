@@ -19,10 +19,10 @@ For the database, I used mySQL and mySQL Workbench. The schema:
 
 ![Schema](schema.png)
 
-The `purchase()` function uses inquirer to prompt the user to complete the transaction. Then, the `checkInv()` function queries the database to make sure the requested quantity doesn not exceed the stock quantity. In the screen shot below, the user chose to purchase two "Bobgoblin Guts."     
+The `purchase()` function uses inquirer to prompt the user to complete the transaction. Then, the `checkInv()` function queries the database to make sure the requested quantity doesn not exceed the stock quantity. If it does, the app displays a message saying as much and calls the `purchase()` function again. In the screen shot below, the user chose to purchase two "Bobgoblin Guts."     
 
 ![Transaction](transaction.png)
 
-The `transact()` function updates the database. As shown below, the stock quntity of "Bobgoblin Guts" has decreased from 10 to 8.
+The `transact()` function updates the database. As shown below, the stock quantity of "Bobgoblin Guts" has decreased from 10 to 8.
 
 ![Updated-Database](updated-DB.png)
