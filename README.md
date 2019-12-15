@@ -10,7 +10,9 @@ It immediately prompts the user to enter the item ID of the item they want to pu
 
 ## Technologies Used
 
-Node.js, Javascript, mySQL, my SQL Workbench, Node Modules (inquirer, console.table, colors)
+Node.js, Javascript, mySQL, my SQL Workbench
+
+Node Modules: inquirer (for input prompts), console.table (to display the inventory), colors (to style the console.log messages)
 
 
 ## How It Works
