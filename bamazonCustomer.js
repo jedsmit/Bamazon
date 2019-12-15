@@ -15,6 +15,11 @@ var connection = mysql.createConnection({
 // connect to the database
 connection.connect(function (err) {
     if (err) throw err;
+    console.log("\n                                /\\".brightYellow);
+    console.log("                               /__\\".brightYellow);
+    console.log("                              /\\  /\\".brightYellow);
+    console.log("                             /__\\/__\\".brightYellow);
+    console.log("\n======================== Bamazon of Hyrule ========================".bold.underline.brightGreen)
     console.log("\nWelcome to my shop! The journey ahead is dangerous! Buy some stuff!\n".brightYellow)
     // prompt the user to purchase
     purchase();
