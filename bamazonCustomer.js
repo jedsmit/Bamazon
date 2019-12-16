@@ -12,7 +12,7 @@ var connection = mysql.createConnection({
     database: "bamazon"
 });
 
-// connect to the database
+// connect to the database and draw a triforce
 connection.connect(function (err) {
     if (err) throw err;
     console.log("\n                                /\\".brightYellow);
@@ -55,7 +55,6 @@ function purchase() {
 };
 
 // function to check inventory
-
 function checkInv() {
 
     connection.query("SELECT * FROM products", function (err, res) {
@@ -75,7 +74,7 @@ function checkInv() {
     })
 };
 
-// function completes transaction and updates inventory
+// function completes transaction and updates database
 function transact() {
     var newQuantity = stockQuantity - saleQuantity;
     connection.query("UPDATE products SET ? WHERE ?",
@@ -88,9 +87,8 @@ function transact() {
             }
         ], function (err, res) {
             if (err) throw err;
-            //console.log(res.affectedRows + " products updated!\n")
+            //console.log(res.affectedRows + " products updated!\n") //for testing
             console.log("Thank you! Please come again!\n".brightYellow);
-
         })
     connection.end();
 };

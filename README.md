@@ -10,9 +10,9 @@ It immediately prompts the user to enter the item ID of the item they want to pu
 
 ## Technologies Used
 
-Node.js, Javascript, mySQL, my SQL Workbench
+Node.js, Javascript, mySQL, mySQL Workbench
 
-Node Modules: inquirer (for input prompts), console.table (to display the inventory), colors (to style the console.log messages)
+Node Modules: inquirer (for input prompts), console.table (to display the inventory), colors (to style the messages)
 
 
 ## How It Works
@@ -30,3 +30,12 @@ The `transact()` function updates the database. As shown below, the stock quanti
 ![Updated-Database](updated-DB.png)
 
 Finally, the app thanks the user and ends the connection to the database.
+
+
+## Future
+
+Stretch goals include a manager add-on for inventory control and a supervisor add-on for accounting.
+
+Thanks for looking at my project.
+
+Jed
